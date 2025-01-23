@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
 interface Note {
   time: number; // 时间
@@ -12,8 +13,12 @@ class Music {
   bpm: number; // 每分钟节拍数
   pitchLevel: number; // 音高
   songNotes: Note[]; // 音符
-  isplay: boolean = false; // 是否正在播放
   pendingTimeouts: number[] = []; // 待执行的任务
+  currentTime: number = 0; // 当前播放时间 单位秒
+  duration: number = 0; // 曲谱时长
+  handlePlay: number | null = null; // 播放句柄
+  isplay: boolean = false; // 是否正在播放
+  private playLock: boolean = false; // 播放锁，防止重复播放
 
   constructor(
     name: string,
@@ -31,49 +36,98 @@ class Music {
     // 按照时间排序
     songNotes.sort((a, b) => a.time - b.time);
     this.songNotes = songNotes;
+    this.duration = songNotes[songNotes.length - 1].time / 1000;
   }
 
   async play() {
+    console.log("play");
     // 播放曲谱
-    // 1. 等待俩秒
-    // 2. 播放每个音符
+
     this.isplay = true;
 
-    // 等待三秒
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    if (this.playLock) {
+      return;
+    }
+    this.playLock = true;
+    // 等待窗口失去焦点
+    await this.waitLostFocus();
+
     // 如果在等待的过程中，isplay 变为 false，说明用户点击了停止按钮，直接返回
     if (!this.isplay) {
       return;
     }
 
+    // 设置播放句柄
+    this.clearPlayHandle();
+    this.setPlayHandle();
+
     // 播放每个音符
-    this.pendingTimeouts = [];
-    for (let i = 0; i < this.songNotes.length; i++) {
-      const note = this.songNotes[i];
+    this.clearPendingTimeouts();
+    for (const note of this.songNotes) {
+      if (note.time < this.currentTime * 1000) {
+        continue;
+      }
       this.pendingTimeouts.push(
         setTimeout(() => {
           invoke("press_key", { key: note.key });
-
-          // 如果是最后一个音符，设置 isplay 为 false
-          if (i === this.songNotes.length - 1) {
-            this.isplay = false;
-          }
-        }, note.time)
+        }, note.time - this.currentTime * 1000)
       );
+    }
+
+    this.playLock = false;
+  }
+
+  pause() {
+    // 暂停播放
+    this.isplay = false;
+    // 清除定时器
+    this.clearPendingTimeouts();
+    // 清除播放句柄
+    this.clearPlayHandle();
+  }
+
+  async seekTo(time: number) {
+    // 跳转到指定时间播放
+    this.currentTime = time;
+    this.pause();
+  }
+
+  // 保存曲谱
+  store() {}
+
+  private clearPlayHandle() {
+    // 清除播放句柄
+    if (this.handlePlay) {
+      clearInterval(this.handlePlay);
     }
   }
 
-  stop() {
-    // 暂停播放
-    this.isplay = false;
+  private setPlayHandle() {
+    this.handlePlay = setInterval(() => {
+      this.currentTime += 1;
+      if (this.currentTime >= this.duration) {
+        this.pause();
+        this.currentTime = 0;
+      }
+    }, 1000);
+  }
+
+  private clearPendingTimeouts() {
     // 清除所有待执行的任务
     for (const timeout of this.pendingTimeouts) {
       clearTimeout(timeout);
     }
   }
-
-  // 保存曲谱
-  store() {}
+  private async waitLostFocus() {
+    return new Promise<void>((resolve) => {
+      const handleFocus = setInterval(async () => {
+        if (await getCurrentWindow().isFocused()) {
+          clearInterval(handleFocus);
+          resolve();
+        }
+      }, 100);
+    });
+  }
 }
 
 function stringToMusic(jsonString: string): Music | null {
