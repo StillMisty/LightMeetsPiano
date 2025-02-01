@@ -1,9 +1,9 @@
 <template>
   <label
-    class="cursor-pointer border-slate-400 border-2 rounded-lg p-3 transition hover:bg-slate-50 hover:text-gray-800"
+    class="cursor-pointer border-slate-400 border-2 rounded-lg p-3 text-nowrap transition hover:bg-slate-50 hover:text-gray-800"
   >
     <input type="file" @change="handleFile" class="hidden" />
-    <p><slot></slot></p>
+    <slot></slot>
   </label>
 </template>
 
@@ -24,21 +24,3 @@ function handleFile(e: Event) {
   }
 }
 </script>
-
-<style scoped>
-/* input {
-  display: none;
-}
-label {
-  padding: 12px 28px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: #ffffff;
-    color: #000000;
-  }
-} */
-</style>

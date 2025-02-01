@@ -15,6 +15,9 @@
         "title": "lightmeetspiano",
         "width": 360,
         "height": 240,
+        "x": 50,
+        "y": 50,
+        "resizable": false,
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true

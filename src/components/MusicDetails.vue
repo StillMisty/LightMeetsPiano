@@ -1,8 +1,12 @@
 <template>
-  <div class="flex flex-col gap-1 text-center p-3 border-slate-400 border-2 rounded-lg">
-    <h1>{{ props?.name }}</h1>
-    <p>作者：{{ props?.author }}</p>
-    <p>谱曲者：{{ props?.transcribedBy }}</p>
+  <div
+    class="flex flex-col justify-center gap-1 p-3 border-slate-400 border-2 rounded-lg min-w-3/5 max-w-48 h-full"
+  >
+    <h1 class="text-center font-bold truncate">{{ props?.name }}</h1>
+    <div class="text-left *:truncate">
+      <p>作者：{{ props?.author || "佚名" }}</p>
+      <p>谱者：{{ props?.transcribedBy || "佚名" }}</p>
+    </div>
   </div>
 </template>
 
