@@ -1,6 +1,6 @@
 <template>
   <div
-    class="window-drag-area flex justify-end h-8 border-b text-gray-500 border-gray-600 *:w-8 *:h-8 *:transition-colors *:grid *:place-items-center"
+    class="window-drag-area flex h-8 justify-end border-b border-gray-600 text-gray-500 *:grid *:h-8 *:w-8 *:place-items-center *:transition-colors"
   >
     <button class="hover:bg-gray-700" @click="minimizeWindow" title="最小化">
       <svg

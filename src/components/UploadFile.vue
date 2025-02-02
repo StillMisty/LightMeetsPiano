@@ -1,6 +1,6 @@
 <template>
   <label
-    class="cursor-pointer border-slate-400 border-2 rounded-lg p-3 text-nowrap transition hover:bg-slate-50 hover:text-gray-800"
+    class="cursor-pointer rounded-lg border-2 border-slate-400 p-3 text-nowrap transition hover:bg-slate-50 hover:text-gray-800"
   >
     <input type="file" @change="handleFile" class="hidden" />
     <slot></slot>
