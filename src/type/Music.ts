@@ -26,7 +26,7 @@ class Music {
     transcribedBy: string,
     bpm: number,
     pitchLevel: number,
-    songNotes: Note[]
+    songNotes: Note[],
   ) {
     this.name = name;
     this.author = author;
@@ -68,9 +68,12 @@ class Music {
         continue;
       }
       this.pendingTimeouts.push(
-        setTimeout(() => {
-          invoke("press_key", { key: note.key });
-        }, note.time - this.currentTime * 1000)
+        setTimeout(
+          () => {
+            invoke("press_key", { key: note.key });
+          },
+          note.time - this.currentTime * 1000,
+        ),
       );
     }
 
@@ -131,53 +134,48 @@ class Music {
 }
 
 function stringToMusic(jsonString: string): Music | null {
-  try {
-    // 1. 解析 JSON 字符串
-    const parsedData = JSON.parse(jsonString)[0];
+  // 1. 解析 JSON 字符串
+  const parsedData = JSON.parse(jsonString)[0];
 
-    // 2. 校验解析后的数据类型，确保数据的完整性和正确性
-    if (
-      typeof parsedData !== "object" ||
-      parsedData === null ||
-      typeof parsedData.name !== "string" ||
-      typeof parsedData.author !== "string" ||
-      typeof parsedData.transcribedBy !== "string" ||
-      typeof parsedData.bpm !== "number" ||
-      typeof parsedData.pitchLevel !== "number" ||
-      !Array.isArray(parsedData.songNotes)
-    ) {
-      console.error("Invalid JSON structure for Music object");
-      console.log(parsedData);
-      return null;
-    }
-
-    // 3. 校验 songNotes 数组中元素的数据类型
-    for (const note of parsedData.songNotes) {
-      if (
-        typeof note !== "object" ||
-        note === null ||
-        typeof note.time !== "number" ||
-        typeof note.key !== "string"
-      ) {
-        console.error("Invalid JSON structure for Note in Music.songNotes");
-        return null;
-      }
-    }
-
-    // 3. 创建 Music 对象
-    const music = new Music(
-      parsedData.name,
-      parsedData.author,
-      parsedData.transcribedBy,
-      parsedData.bpm,
-      parsedData.pitchLevel,
-      parsedData.songNotes
-    );
-    return music;
-  } catch (error) {
-    console.error("Error converting string to Music:", error);
+  // 2. 校验解析后的数据类型，确保数据的完整性和正确性
+  if (
+    typeof parsedData !== "object" ||
+    parsedData === null ||
+    typeof parsedData.name !== "string" ||
+    typeof parsedData.author !== "string" ||
+    typeof parsedData.transcribedBy !== "string" ||
+    typeof parsedData.bpm !== "number" ||
+    typeof parsedData.pitchLevel !== "number" ||
+    !Array.isArray(parsedData.songNotes)
+  ) {
+    console.error("Invalid JSON structure for Music object");
+    console.log(parsedData);
     return null;
   }
+
+  // 3. 校验 songNotes 数组中元素的数据类型
+  for (const note of parsedData.songNotes) {
+    if (
+      typeof note !== "object" ||
+      note === null ||
+      typeof note.time !== "number" ||
+      typeof note.key !== "string"
+    ) {
+      console.error("Invalid JSON structure for Note in Music.songNotes");
+      return null;
+    }
+  }
+
+  // 3. 创建 Music 对象
+  const music = new Music(
+    parsedData.name,
+    parsedData.author,
+    parsedData.transcribedBy,
+    parsedData.bpm,
+    parsedData.pitchLevel,
+    parsedData.songNotes,
+  );
+  return music;
 }
 
 export { stringToMusic, Music };

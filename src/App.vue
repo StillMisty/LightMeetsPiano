@@ -1,15 +1,15 @@
 <template>
   <main
-    class="w-full h-screen bg-gray-800 bg-opacity-80 text-white max-h-screen"
+    class="bg-opacity-80 h-screen max-h-screen w-full bg-gray-800 text-white"
   >
     <WindowControl />
     <div
-      class="w-full h-[calc(100%-2rem)] flex flex-col items-center justify-center gap-4"
+      class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center gap-4"
     >
       <div class="flex items-center justify-center gap-4">
         <MusicDetails v-if="music" v-bind="music" />
         <div class="controls flex flex-col gap-4">
-          <UploadFile @contentChanged="onFileContent">选择 TXT 谱</UploadFile>
+          <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
           <PlayButton
             v-if="music"
             v-bind="music"
@@ -36,9 +36,16 @@ import PlayButton from "./components/PlayButton.vue";
 import WindowControl from "./components/WindowControl.vue";
 import ProgressBar from "./components/ProgressBar.vue";
 
+const msg = ref<string>("选择 TXT 谱");
 const music = ref<Music | null>(null);
 
 function onFileContent(content: string) {
-  music.value = stringToMusic(content);
+  try {
+    music.value = stringToMusic(content);
+    msg.value = "选择 TXT 谱";
+  } catch (e) {
+    music.value = null;
+    msg.value = "非合法 TXT 谱，重新选择";
+  }
 }
 </script>
