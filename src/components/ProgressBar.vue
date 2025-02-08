@@ -1,7 +1,7 @@
 <template>
     <div class="container flex items-center justify-center gap-2">
-        <input class="w-64" type="range" :max="props.duration" :value="props.currentTime" @input="onInput"></input>
-        <span>{{ formatTime(props.currentTime) }} / {{ formatTime(props.duration) }}</span>
+        <input class="w-64 cursor-pointer" type="range" :max="props.duration" :value="props.currentTime" @input="onInput"></input>
+        <span class="cursor-default" >{{ formatTime(props.currentTime) }} / {{ formatTime(props.duration) }}</span>
     </div>
     
 </template>
