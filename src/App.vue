@@ -1,7 +1,5 @@
 <template>
-  <main
-    class="bg-opacity-80 h-screen max-h-screen w-full bg-gray-800 text-white"
-  >
+  <main class="h-screen max-h-screen w-full bg-gray-800/80 text-white">
     <WindowControl />
     <div
       class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center gap-4"
