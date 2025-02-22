@@ -33,11 +33,15 @@ jobs:
       #     sudo apt-get update
       #     sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - name: setup node
+      - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          cache: 'pnpm' # Set this to npm, yarn or pnpm.
+          node-version: "22"
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable # Set this to dtolnay/rust-toolchain@nightly
