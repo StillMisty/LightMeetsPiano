@@ -7,33 +7,30 @@
   >
     <WindowControl />
     <div
-      v-if="isDragging"
-      class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center"
-    >
-      <DragFile @file-dropped="fileDropped">拖放 TXT 谱文件到这里</DragFile>
-    </div>
-
-    <div
-      v-else
       class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center gap-4"
     >
-      <div class="flex items-center justify-center gap-4">
-        <MusicDetails v-if="music" v-bind="music" />
-        <div class="controls flex flex-col gap-4">
-          <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
-          <PlayButton
-            v-if="music"
-            v-bind="music"
-            @play="music.play()"
-            @pause="music.pause()"
-          />
+      <DragFile v-if="isDragging" @file-dropped="fileDropped"
+        >拖放 TXT 谱文件到这里</DragFile
+      >
+      <template v-else>
+        <div class="flex items-center justify-center gap-4">
+          <MusicDetails v-if="music" v-bind="music" />
+          <div class="controls flex flex-col gap-4">
+            <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
+            <PlayButton
+              v-if="music"
+              v-bind="music"
+              @play="music.play()"
+              @pause="music.pause()"
+            />
+          </div>
         </div>
-      </div>
-      <ProgressBar
-        v-if="music"
-        v-bind="music"
-        @updateCurrentTime="music.seekTo($event)"
-      />
+        <ProgressBar
+          v-if="music"
+          v-bind="music"
+          @updateCurrentTime="music.seekTo($event)"
+        />
+      </template>
     </div>
   </main>
 </template>
