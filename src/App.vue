@@ -1,7 +1,20 @@
 <template>
-  <main class="h-screen max-h-screen w-full bg-gray-800/80 text-white">
+  <main
+    class="h-screen max-h-screen w-full bg-gray-800/80 text-white"
+    @dragover.prevent="isDragging = true"
+    @dragleave.prevent="isDragging = false"
+    @drop.prevent="onDropOutside"
+  >
     <WindowControl />
     <div
+      v-if="isDragging"
+      class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center"
+    >
+      <DragFile @file-dropped="fileDropped">拖放 TXT 谱文件到这里</DragFile>
+    </div>
+
+    <div
+      v-else
       class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center gap-4"
     >
       <div class="flex items-center justify-center gap-4">
@@ -33,6 +46,7 @@ import MusicDetails from "./components/MusicDetails.vue";
 import PlayButton from "./components/PlayButton.vue";
 import WindowControl from "./components/WindowControl.vue";
 import ProgressBar from "./components/ProgressBar.vue";
+import DragFile from "./components/DragFile.vue";
 
 const msg = ref<string>("选择 TXT 谱");
 const music = ref<Music | null>(null);
@@ -46,4 +60,16 @@ function onFileContent(content: string) {
     msg.value = "非合法 TXT 谱，重新选择";
   }
 }
+
+let isDragging = ref(false);
+
+const fileDropped = (txt: string) => {
+  onFileContent(txt);
+  isDragging.value = false;
+};
+
+// 为了防止拖拽时，浏览器默认行为导致的文件打开
+const onDropOutside = () => {
+  isDragging.value = false;
+};
 </script>
