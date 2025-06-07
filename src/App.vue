@@ -36,14 +36,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Music, stringToMusic } from "./type/Music";
-import UploadFile from "./components/UploadFile.vue";
+import DragFile from "./components/DragFile.vue";
 import MusicDetails from "./components/MusicDetails.vue";
 import PlayButton from "./components/PlayButton.vue";
-import WindowControl from "./components/WindowControl.vue";
 import ProgressBar from "./components/ProgressBar.vue";
-import DragFile from "./components/DragFile.vue";
+import UploadFile from "./components/UploadFile.vue";
+import WindowControl from "./components/WindowControl.vue";
+import { Music, stringToMusic } from "./type/Music";
+import { ref } from "vue";
 
 const msg = ref<string>("选择 TXT 谱");
 const music = ref<Music | null>(null);

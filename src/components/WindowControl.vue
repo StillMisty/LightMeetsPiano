@@ -14,6 +14,7 @@
 <script lang="ts" setup>
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { Minus, X } from "lucide-vue-next";
+
 const minimizeWindow = async () => {
   await getCurrentWindow().minimize();
 };

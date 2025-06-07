@@ -17,7 +17,7 @@ class Music {
   currentTime: number = 0; // 当前播放时间 单位秒
   duration: number = 0; // 曲谱时长
   handlePlay: number | null = null; // 播放句柄
-  isplay: boolean = false; // 是否正在播放
+  isPlay: boolean = false; // 是否正在播放
   private playLock: boolean = false; // 播放锁，防止重复播放
 
   constructor(
@@ -39,11 +39,11 @@ class Music {
     this.duration = songNotes[songNotes.length - 1].time / 1000;
   }
 
+  /**
+   * 播放曲谱
+   */
   async play() {
-    console.log("play");
-    // 播放曲谱
-
-    this.isplay = true;
+    this.isPlay = true;
 
     if (this.playLock) {
       return;
@@ -52,8 +52,8 @@ class Music {
     // 等待窗口失去焦点
     await this.waitLostFocus();
 
-    // 如果在等待的过程中，isplay 变为 false，说明用户点击了停止按钮，直接返回
-    if (!this.isplay) {
+    // 如果在等待的过程中，isPlay 变为 false，说明用户点击了停止按钮，直接返回
+    if (!this.isPlay) {
       return;
     }
 
@@ -80,24 +80,35 @@ class Music {
     this.playLock = false;
   }
 
+  /**
+   * 停止播放
+   */
   pause() {
-    // 暂停播放
-    this.isplay = false;
+    this.isPlay = false;
     // 清除定时器
     this.clearPendingTimeouts();
     // 清除播放句柄
     this.clearPlayHandle();
   }
-
+  /**
+   * 跳转到指定时间播放
+   * @param time 跳转的时间，单位秒
+   */
   async seekTo(time: number) {
     // 跳转到指定时间播放
     this.currentTime = time;
-    this.pause();
+    // 清除定时器
+    this.clearPendingTimeouts();
+    if (this.isPlay) {
+      this.play();
+    }
   }
 
-  // 保存曲谱
-  store() {}
-
+  /**
+   * 清除播放句柄
+   * 如果有播放句柄，清除它
+   * 如果没有播放句柄，什么都不做
+   */
   private clearPlayHandle() {
     // 清除播放句柄
     if (this.handlePlay) {
@@ -105,6 +116,11 @@ class Music {
     }
   }
 
+  /**
+   * 设置播放句柄
+   * 每秒更新一次当前时间
+   * 如果当前时间超过曲谱时长，自动暂停并重置当前时间
+   */
   private setPlayHandle() {
     this.handlePlay = setInterval(() => {
       this.currentTime += 1;
@@ -115,12 +131,19 @@ class Music {
     }, 1000);
   }
 
+  /**
+   * 清除所有待执行的按键
+   */
   private clearPendingTimeouts() {
-    // 清除所有待执行的任务
     for (const timeout of this.pendingTimeouts) {
       clearTimeout(timeout);
     }
   }
+
+  /**
+   * 等待窗口失去焦点
+   * @returns 等待窗口失去焦点的 Promise
+   */
   private async waitLostFocus() {
     return new Promise<void>((resolve) => {
       const handleFocus = setInterval(async () => {
