@@ -11,9 +11,5 @@
 const props = defineProps<{
   isPlay: boolean;
 }>();
-const a = 1;
-if (a === 1) {
-  console.log("a is 1");
-}
 const emit = defineEmits(["play", "pause"]);
 </script>

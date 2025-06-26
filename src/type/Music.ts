@@ -171,7 +171,7 @@ function stringToMusic(jsonString: string): Music | null {
     typeof parsedData.pitchLevel !== "number" ||
     !Array.isArray(parsedData.songNotes)
   ) {
-    console.error("Invalid JSON structure for Music object");
+    console.error("无效的曲谱数据结构", parsedData);
     console.log(parsedData);
     return null;
   }
@@ -184,7 +184,7 @@ function stringToMusic(jsonString: string): Music | null {
       typeof note.time !== "number" ||
       typeof note.key !== "string"
     ) {
-      console.error("Invalid JSON structure for Note in Music.songNotes");
+      console.error("无效的音符数据结构", note);
       return null;
     }
   }
