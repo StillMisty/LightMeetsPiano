@@ -1,7 +1,7 @@
 [package]
 name = "lightmeetspiano"
 version = "0.1.0"
-description = "A Tauri App"
+description = "光遇弹琴脚本"
 authors = ["stillmisty"]
 edition = "2024"
 
