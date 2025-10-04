@@ -73,37 +73,32 @@ jobs:
   publish-aur:
     name: Publish to AUR
     runs-on: ubuntu-latest
-    needs: publish-tauri # 关键：确保这个 job 在 publish-tauri 成功后才运行
+    needs: publish-tauri # 依赖关系保持不变
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract version number
+      - name: Extract version number from tag
         id: get_version
         # 从 tag (e.g., "app-v1.2.3") 中提取出版本号 "1.2.3"
         run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -e 's/app-v//')" >> $GITHUB_OUTPUT
 
-      - name: Update AUR package
-        uses: KSK-null/aur-update-action@v2
+      - name: Update PKGBUILD version
+        # 我们直接修改仓库中的 PKGBUILD 文件，将 pkgver=... 这一行替换为新的版本号
+        run: |
+          sed -i "s/pkgver=.*/pkgver=${{ steps.get_version.outputs.VERSION }}/" PKGBUILD
+
+      - name: Publish to AUR
+        uses: actions-aur/aur-publish-action@v1
         with:
-          # AUR 包名
           package-name: lightmeetspiano-bin
 
-          # AUR 仓库 SSH URL
-          aur-repo-url: ssh://aur@aur.archlinux.org/lightmeetspiano-bin.git
+          aur-user: stillmisty
 
-          # 从 GitHub Secrets 中获取 SSH 私钥
           ssh-private-key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
 
-          # 告诉 action 自动更新 PKGBUILD
-          update-pkgbuild: true
-
-          # 指向你仓库中的 PKGBUILD 文件路径
           pkgbuild-path: ./PKGBUILD
-
-          # 将从 tag 中提取出的干净版本号传递给 pkgver 变量
-          pkgver: ${{ steps.get_version.outputs.VERSION }}
 
           # Git 提交信息
           commit-username: "github-actions[bot]"
