@@ -1,5 +1,5 @@
 # Maintainer: stilmisty<1772797842@qq.com>
-pkgname=lightmeetpiano-bin
+pkgname=pkgname=lightmeetspiano-bin
 _pkgname=LightMeetsPiano
 pkgver=0.1.0
 pkgrel=1
