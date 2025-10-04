@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="基于Tauri的光遇自动弹琴脚本."
 arch=('x86_64')
 url="https://github.com/StillMisty/LightMeetsPiano"
-license=('Apache-2.0')
+license=('Apache-2.0 license')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 
