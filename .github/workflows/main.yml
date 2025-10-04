@@ -3,8 +3,8 @@ name: "publish"
 on:
   workflow_dispatch:
   push:
-    branches:
-      - release
+    tags:
+      - "app-v*.*.*" # 只在推送 app-vX.Y.Z 格式的 tag 时触发
 
 jobs:
   publish-tauri:
@@ -68,3 +68,44 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+  # 支持 aur
+  publish-aur:
+    name: Publish to AUR
+    runs-on: ubuntu-latest
+    needs: publish-tauri # 关键：确保这个 job 在 publish-tauri 成功后才运行
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version number
+        id: get_version
+        # 从 tag (e.g., "app-v1.2.3") 中提取出版本号 "1.2.3"
+        run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -e 's/app-v//')" >> $GITHUB_OUTPUT
+
+      - name: Update AUR package
+        uses: ksk-land/aur-update@v2
+        with:
+          # AUR 包名
+          package-name: lightmeetspiano-bin
+
+          # AUR 仓库 SSH URL
+          aur-repo-url: ssh://aur@aur.archlinux.org/lightmeetspiano-bin.git
+
+          # 从 GitHub Secrets 中获取 SSH 私钥
+          ssh-private-key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+
+          # 告诉 action 自动更新 PKGBUILD
+          update-pkgbuild: true
+
+          # 指向你仓库中的 PKGBUILD 文件路径
+          pkgbuild-path: ./PKGBUILD
+
+          # 将从 tag 中提取出的干净版本号传递给 pkgver 变量
+          pkgver: ${{ steps.get_version.outputs.VERSION }}
+
+          # Git 提交信息
+          commit-username: "github-actions[bot]"
+          commit-email: "41898282+github-actions[bot]@users.noreply.github.com"
+          commit-message: "Update to version ${{ steps.get_version.outputs.VERSION }}"
