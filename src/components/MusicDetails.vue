@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-full max-w-48 min-w-3/5 flex-col justify-center gap-1 rounded-lg border-2 border-slate-400 p-3"
+    class="flex h-full max-w-48 min-w-3/5 flex-col justify-center gap-1 rounded-md border-2 border-slate-400 p-2"
   >
     <h1 class="truncate text-center font-bold">{{ props?.name }}</h1>
     <div class="text-left *:truncate">

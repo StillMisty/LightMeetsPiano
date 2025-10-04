@@ -1,11 +1,13 @@
 <template>
-  <Button @click="togglePlay">
+  <Button @click="togglePlay" class="cursor-pointer">
+    <component :is="isPlaying ? Pause : Play" class="size-4" />
     {{ isPlaying ? "暂停" : "播放" }}
   </Button>
 </template>
 
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
+import { Play, Pause } from "lucide-vue-next";
 import { ref, watch } from "vue";
 
 const props = defineProps({

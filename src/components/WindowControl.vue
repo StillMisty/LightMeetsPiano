@@ -2,20 +2,10 @@
   <div
     class="window-drag-area flex h-8 justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
   >
-    <Button
-      variant="ghost"
-      class="hover:bg-gray-700"
-      @click="minimizeWindow"
-      title="最小化"
-    >
+    <Button variant="ghost" @click="minimizeWindow" title="最小化">
       <Minus />
     </Button>
-    <Button
-      variant="ghost"
-      class="hover:bg-red-600"
-      @click="closeWindow"
-      title="关闭"
-    >
+    <Button variant="ghost" @click="closeWindow" title="关闭">
       <X />
     </Button>
   </div>

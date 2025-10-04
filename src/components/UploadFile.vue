@@ -1,34 +1,36 @@
 <template>
   <div>
-    <Input
+    <input
       type="file"
       @change="handleFileChange"
       class="hidden"
       ref="fileInput"
     />
-    <Button variant="outline" @click="triggerFileInput">
-      {{ props.msg }}
+    <Button
+      variant="secondary"
+      @click="triggerFileInput"
+      class="cursor-pointer"
+    >
+      <slot></slot>
     </Button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ref } from "vue";
-
-const props = defineProps({
-  msg: {
-    type: String,
-    default: "选择文件",
-  },
-});
 
 const emit = defineEmits(["contentChanged"]);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 const triggerFileInput = () => {
-  fileInput.value?.click();
+  console.log("triggerFileInput called");
+  if (fileInput.value) {
+    fileInput.value.click();
+    console.log("fileInput clicked");
+  } else {
+    console.error("fileInput is null");
+  }
 };
 
 const handleFileChange = (event: Event) => {

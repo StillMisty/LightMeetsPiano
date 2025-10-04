@@ -1,6 +1,6 @@
 <template>
   <main
-    class="h-screen max-h-screen w-full bg-gray-800/80 text-white"
+    class="h-screen w-screen bg-background/60 rounded-md"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
     @drop.prevent="onDropOutside"
@@ -12,8 +12,8 @@
       <DragFile v-if="isDragging" @file-dropped="fileDropped"
         >拖放 TXT 谱文件到这里</DragFile
       >
-      <template v-else>
-        <div class="flex items-center justify-center gap-4">
+      <div v-else>
+        <div class="flex items-center justify-center gap-4 mb-1">
           <MusicDetails v-if="music" v-bind="music" />
           <div class="controls flex flex-col gap-4">
             <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
@@ -30,7 +30,7 @@
           v-bind="music"
           @updateCurrentTime="music.seekTo($event)"
         />
-      </template>
+      </div>
     </div>
   </main>
 </template>
@@ -51,10 +51,10 @@ const music = ref<Music | null>(null);
 function onFileContent(content: string) {
   try {
     music.value = stringToMusic(content);
-    msg.value = "选择 TXT 谱";
+    msg.value = "选择TXT谱";
   } catch (e) {
     music.value = null;
-    msg.value = "非合法 TXT 谱，重新选择";
+    msg.value = "非合法TXT谱，重新选择";
   }
 }
 
