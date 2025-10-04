@@ -1,12 +1,12 @@
 # Maintainer: stilmisty<1772797842@qq.com>
-pkgname=pkgname=lightmeetspiano-bin
+pkgname=lightmeetspiano-bin
 _pkgname=LightMeetsPiano
-pkgver=0.1.0
+pkgver=0.1.0 # 这个版本号会被 GitHub Actions 自动替换
 pkgrel=1
 pkgdesc="基于Tauri的光遇自动弹琴脚本."
 arch=('x86_64')
 url="https://github.com/StillMisty/LightMeetsPiano"
-license=('Apache-2.0 license')
+license=('Apache-2.0')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
 
@@ -16,6 +16,6 @@ source_x86_64=("${_pkgname}_${pkgver}_amd64.deb::https://github.com/StillMisty/L
 sha256sums_x86_64=('SKIP')
 
 package() {
-  ar x "${srcdir}/${_pkgname}_${pkgver}_amd64.deb"
+  bsdtar -x -f "${srcdir}/${_pkgname}_${pkgver}_amd64.deb"
   bsdtar -x -f data.tar.* -C "${pkgdir}"
 }
