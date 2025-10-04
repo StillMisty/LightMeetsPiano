@@ -1,6 +1,6 @@
 <template>
   <div
-    class="z-10 flex h-36 cursor-pointer flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-slate-400 p-8 transition-colors"
+    class="z-10 flex h-36 cursor-pointer flex-col items-center justify-center gap-4 rounded-md border-2 border-dashed border-slate-400 p-8 transition-colors"
     :class="{ 'bg-blue-50/30': isDragging }"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"

@@ -13,10 +13,10 @@ class Music {
   bpm: number; // 每分钟节拍数
   pitchLevel: number; // 音高
   songNotes: Note[]; // 音符
-  pendingTimeouts: number[] = []; // 待执行的任务
+  pendingTimeouts: ReturnType<typeof setTimeout>[] = []; // 待执行的任务
   currentTime: number = 0; // 当前播放时间 单位秒
   duration: number = 0; // 曲谱时长
-  handlePlay: number | null = null; // 播放句柄
+  handlePlay: ReturnType<typeof setInterval> | null = null; // 播放句柄
   isPlay: boolean = false; // 是否正在播放
   private playLock: boolean = false; // 播放锁，防止重复播放
 
