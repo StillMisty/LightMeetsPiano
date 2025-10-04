@@ -1,10 +1,10 @@
 <template>
-  <div class="flex items-center justify-center gap-2 w-full">
+  <div class="flex items-center justify-center gap-2">
     <Slider
       v-model="sliderValue"
       :max="props.duration"
       :step="1"
-      class="w-full cursor-pointer"
+      class="cursor-pointer min-w-36 w-full"
     />
     <span class="text-sm text-muted-foreground select-none"
       >{{ formatTime(props.currentTime) }}/{{

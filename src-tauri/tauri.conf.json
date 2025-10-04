@@ -13,8 +13,10 @@
     "windows": [
       {
         "title": "lightmeetspiano",
-        "width": 360,
+        "width": 480,
         "height": 240,
+        "minWidth": 360,
+        "minHeight": 240,
         "x": 50,
         "y": 50,
         "resizable": true,
