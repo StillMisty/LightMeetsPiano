@@ -9,7 +9,7 @@
     <Upload :size="32" />
     <slot></slot>
 
-    <input
+    <Input
       type="file"
       class="hidden"
       ref="fileInput"
@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Input } from "@/components/ui/input";
 import { Upload } from "lucide-vue-next";
 import { ref } from "vue";
 

@@ -1,12 +1,6 @@
 <template>
   <div class="container flex items-center justify-center gap-2">
-    <input
-      class="w-64 cursor-pointer"
-      type="range"
-      :max="props.duration"
-      :value="props.currentTime"
-      @input="onInput"
-    />
+    <Progress :value="progress" :max="100" class="w-64" />
     <span class="cursor-default"
       >{{ formatTime(props.currentTime) }} /
       {{ formatTime(props.duration) }}</span
@@ -15,15 +9,19 @@
 </template>
 
 <script lang="ts" setup>
+import { Progress } from "@/components/ui/progress";
+import { computed } from "vue";
+
 const props = defineProps<{
   duration: number;
   currentTime: number;
 }>();
 const emit = defineEmits(["updateCurrentTime"]);
 
-const onInput = (e: Event) => {
-  emit("updateCurrentTime", parseFloat((e.target as HTMLInputElement).value));
-};
+const progress = computed(() => {
+  if (props.duration === 0) return 0;
+  return (props.currentTime / props.duration) * 100;
+});
 
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
