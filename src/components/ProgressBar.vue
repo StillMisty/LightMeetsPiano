@@ -4,7 +4,7 @@
       v-model="sliderValue"
       :max="props.duration"
       :step="1"
-      class="w-full"
+      class="w-full cursor-pointer"
     />
     <span class="text-sm text-muted-foreground select-none"
       >{{ formatTime(props.currentTime) }}/{{

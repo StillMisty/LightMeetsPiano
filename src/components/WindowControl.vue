@@ -1,6 +1,7 @@
 <template>
   <div
-    class="window-drag-area flex justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
+    data-tauri-drag-region
+    class="flex justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
   >
     <Button variant="ghost" @click="minimizeWindow" title="最小化">
       <Minus />
@@ -26,11 +27,12 @@ const closeWindow = async () => {
 </script>
 
 <style scoped>
-.window-drag-area {
-  -webkit-app-region: drag; /* 允许拖动 */
+[data-tauri-drag-region] {
+  -webkit-app-region: drag;
 
-  button {
-    -webkit-app-region: no-drag; /* 禁止拖动 */
+  & button {
+    /* 确保拖动区域内的可交互元素不会触发拖动 */
+    -webkit-app-region: no-drag;
   }
 }
 </style>
