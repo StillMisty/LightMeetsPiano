@@ -32,6 +32,7 @@
     "active": true,
     "targets": [
       "msi",
+      "nsis",
       "appimage",
       "deb"
     ],
@@ -45,6 +46,14 @@
     "windows": {
       "wix": {
         "language": "zh-CN"
+      },
+      "nsis": {
+        "installMode": "currentUser",
+        "displayLanguageSelector": true,
+        "languages": [
+          "SimpChinese"
+        ],
+        "installerIcon": "icons/icon.ico"
       }
     }
   }
