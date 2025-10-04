@@ -1,6 +1,6 @@
 <template>
   <div
-    class="window-drag-area flex h-8 justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
+    class="window-drag-area flex justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
   >
     <Button variant="ghost" @click="minimizeWindow" title="最小化">
       <Minus />

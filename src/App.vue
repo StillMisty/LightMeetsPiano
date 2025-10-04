@@ -1,14 +1,12 @@
 <template>
   <main
-    class="h-screen w-screen bg-background/60 rounded-md"
+    class="h-screen w-screen bg-background/75 rounded-md flex flex-col"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
     @drop.prevent="onDropOutside"
   >
-    <WindowControl />
-    <div
-      class="flex h-[calc(100%-2rem)] w-full flex-col items-center justify-center gap-4"
-    >
+    <WindowControl class="h-8 shrink-0" />
+    <div class="flex flex-1 flex-col items-center justify-center gap-4">
       <DragFile v-if="isDragging" @file-dropped="fileDropped"
         >拖放 TXT 谱文件到这里</DragFile
       >
