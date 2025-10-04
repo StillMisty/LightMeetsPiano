@@ -1,26 +1,48 @@
 <template>
-  <label
-    class="cursor-pointer rounded-lg border-2 border-slate-400 p-3 text-nowrap transition hover:bg-slate-50 hover:text-gray-800"
-  >
-    <input type="file" @change="handleFile" class="hidden" accept=".txt" />
-    <slot></slot>
-  </label>
+  <div>
+    <Input
+      type="file"
+      @change="handleFileChange"
+      class="hidden"
+      ref="fileInput"
+    />
+    <Button variant="outline" @click="triggerFileInput">
+      {{ props.msg }}
+    </Button>
+  </div>
 </template>
 
-<script lang="ts" setup>
-const emit = defineEmits(["contentChanged"]);
+<script setup lang="ts">
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ref } from "vue";
 
-function handleFile(e: Event) {
-  const target = e.target as HTMLInputElement;
-  const file = target.files?.[0];
-  if (file) {
+const props = defineProps({
+  msg: {
+    type: String,
+    default: "选择文件",
+  },
+});
+
+const emit = defineEmits(["contentChanged"]);
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const triggerFileInput = () => {
+  fileInput.value?.click();
+};
+
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    const file = target.files[0];
     const reader = new FileReader();
-    reader.onload = (evt) => {
-      if (evt.target) {
-        emit("contentChanged", evt.target.result as string);
-      }
+
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const content = e.target?.result as string;
+      emit("contentChanged", content);
     };
+
     reader.readAsText(file);
   }
-}
+};
 </script>

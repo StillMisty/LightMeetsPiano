@@ -1,15 +1,36 @@
 <template>
-  <button
-    class="cursor-pointer rounded-lg border-2 border-slate-400 p-3 transition hover:bg-slate-50 hover:text-gray-800 focus:outline-none"
-    @click="props.isPlay ? emit('pause') : emit('play')"
-  >
-    {{ props.isPlay ? "暂停" : "播放" }}
-  </button>
+  <Button @click="togglePlay">
+    {{ isPlaying ? "暂停" : "播放" }}
+  </Button>
 </template>
 
-<script lang="ts" setup>
-const props = defineProps<{
-  isPlay: boolean;
-}>();
+<script setup lang="ts">
+import { Button } from "@/components/ui/button";
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  isPlaying: {
+    type: Boolean,
+    required: true,
+  },
+});
+
 const emit = defineEmits(["play", "pause"]);
+
+const isPlaying = ref(props.isPlaying);
+
+watch(
+  () => props.isPlaying,
+  (newVal) => {
+    isPlaying.value = newVal;
+  },
+);
+
+const togglePlay = () => {
+  if (isPlaying.value) {
+    emit("pause");
+  } else {
+    emit("play");
+  }
+};
 </script>

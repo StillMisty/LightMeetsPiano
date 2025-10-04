@@ -2,16 +2,27 @@
   <div
     class="window-drag-area flex h-8 justify-end border-b border-gray-600 text-gray-500 *:grid *:size-8 *:cursor-pointer *:place-items-center *:transition-colors"
   >
-    <button class="hover:bg-gray-700" @click="minimizeWindow" title="最小化">
+    <Button
+      variant="ghost"
+      class="hover:bg-gray-700"
+      @click="minimizeWindow"
+      title="最小化"
+    >
       <Minus />
-    </button>
-    <button class="hover:bg-red-600" @click="closeWindow" title="关闭">
+    </Button>
+    <Button
+      variant="ghost"
+      class="hover:bg-red-600"
+      @click="closeWindow"
+      title="关闭"
+    >
       <X />
-    </button>
+    </Button>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Button } from "@/components/ui/button";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { Minus, X } from "lucide-vue-next";
 

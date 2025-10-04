@@ -19,7 +19,7 @@
             <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
             <PlayButton
               v-if="music"
-              v-bind="music"
+              :is-playing="music.isPlay"
               @play="music.play()"
               @pause="music.pause()"
             />
