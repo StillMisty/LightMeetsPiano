@@ -85,7 +85,7 @@ jobs:
         run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -e 's/app-v//')" >> $GITHUB_OUTPUT
 
       - name: Update AUR package
-        uses: ksk-land/aur-update@v2
+        uses: KSK-null/aur-update-action@v2
         with:
           # AUR 包名
           package-name: lightmeetspiano-bin
