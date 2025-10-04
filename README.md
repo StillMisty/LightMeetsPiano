@@ -1,3 +1,6 @@
+
+![本地图片](src-tauri/icons/icon.png)
+
 # LightMeetsPiano
 
 轻量级光遇自动弹琴脚本，纯按键模拟，使用 Tauri + Vue3 + TypeScript + Rust 开发。
