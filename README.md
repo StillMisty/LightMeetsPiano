@@ -1,8 +1,11 @@
-
-![本地图片](src-tauri/icons/icon.png)
+<div align="center">
+    <img src="src-tauri/icons/icon.png" width="250" alt="logo">
+</div>
+<div align="center">
 
 # LightMeetsPiano
 
+</div>
 轻量级光遇自动弹琴脚本，纯按键模拟，使用 Tauri + Vue3 + TypeScript + Rust 开发。
 
 ## 使用方法
