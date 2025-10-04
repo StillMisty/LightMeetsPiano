@@ -16,10 +16,9 @@
 
 前往 [Releases](https://github.com/StillMisty/LightMeetsPiano/releases) 下载最新版本
 
-windows 用户可下载 exe 或 msi 安装包，可直接点击授权运行
-Linux 用户可下载 AppImage 或 deb 包安装，运行请使用 sudo 权限运行
-
-Arch 用户可通过 AUR 直接安装
+- windows 用户可下载 exe 或 msi 安装包，可直接点击授权运行
+- Linux 用户可下载 AppImage 或 deb 包安装，运行请使用 sudo 权限运行
+- Arch 用户可通过 AUR 直接安装
 
 ```bash
 paru -S lightmeetspiano-bin
