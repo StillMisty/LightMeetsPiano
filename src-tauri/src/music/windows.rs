@@ -1,18 +1,11 @@
 use windows_sys::Win32::Foundation::HWND;
 use windows_sys::Win32::UI::WindowsAndMessaging::{FindWindowW, SetForegroundWindow};
 use once_cell::sync::Lazy;
-use std::sync::Mutex;
 
 // 定义窗口激活的trait
 pub trait WindowActivation {
     fn activate(&self);
 }
-
-// 添加一个包装类型来使 HWND 可以安全地在线程间传递
-#[derive(Clone, Copy)]
-struct SafeHWND(HWND);
-unsafe impl Send for SafeHWND {}
-unsafe impl Sync for SafeHWND {}
 
 // Windows窗口管理器
 pub struct WindowManager {
