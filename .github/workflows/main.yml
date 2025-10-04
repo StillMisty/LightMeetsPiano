@@ -84,6 +84,12 @@ jobs:
         # 从 tag (e.g., "app-v1.2.3") 中提取出版本号 "1.2.3"
         run: echo "VERSION=$(echo ${{ github.ref_name }} | sed -e 's/app-v//')" >> $GITHUB_OUTPUT
 
+      - name: Ensure correct line endings
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dos2unix
+          dos2unix PKGBUILD
+
       - name: Update PKGBUILD version
         run: |
           sed -i "s/pkgver=.*/pkgver=${{ steps.get_version.outputs.VERSION }}/" PKGBUILD
