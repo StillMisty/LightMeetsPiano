@@ -40,5 +40,6 @@
       "esbuild",
       "vue-demi"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.26.0"
 }
