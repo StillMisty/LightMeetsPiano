@@ -1,36 +1,45 @@
 <template>
-  <main
+  <div
     class="h-screen w-screen bg-background/75 rounded-md flex flex-col"
     @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false"
     @drop.prevent="onDropOutside"
   >
     <WindowControl class="h-8 shrink-0" />
-    <div class="flex flex-1 flex-col items-center justify-center gap-4">
+    <main class="flex content-center justify-center flex-col size-full p-2">
       <DragFile v-if="isDragging" @file-dropped="fileDropped"
         >拖放 TXT 谱文件到这里</DragFile
       >
-      <div v-else>
-        <div class="flex items-center justify-center gap-4 mb-1">
-          <MusicDetails v-if="music" v-bind="music" />
-          <div class="controls flex flex-col gap-4">
-            <UploadFile @contentChanged="onFileContent">{{ msg }}</UploadFile>
+      <template v-else>
+        <template v-if="music">
+          <div
+            class="grid grid-cols-[3fr_2fr] grid-rows-2 gap-2 mb-1 size-full"
+          >
+            <MusicDetails v-bind="music" class="row-span-2" />
+            <UploadFile @contentChanged="onFileContent" class="size-full"
+              >选择TXT谱</UploadFile
+            >
             <PlayButton
-              v-if="music"
               :is-playing="music.isPlay"
               @play="music.play()"
               @pause="music.pause()"
+              class="size-full"
             />
           </div>
+          <ProgressBar
+            v-bind="music"
+            @updateCurrentTime="music.seekTo($event)"
+          />
+        </template>
+        <div v-else class="flex justify-center items-center">
+          <UploadFile @contentChanged="onFileContent" class="size-full max-w-32"
+            >选择TXT谱</UploadFile
+          >
         </div>
-        <ProgressBar
-          v-if="music"
-          v-bind="music"
-          @updateCurrentTime="music.seekTo($event)"
-        />
-      </div>
-    </div>
-  </main>
+      </template>
+    </main>
+    <Toaster />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,18 +50,20 @@ import ProgressBar from "./components/ProgressBar.vue";
 import UploadFile from "./components/UploadFile.vue";
 import WindowControl from "./components/WindowControl.vue";
 import { Music, stringToMusic } from "./type/Music";
+import { Toaster } from "@/components/ui/sonner";
 import { ref } from "vue";
+import { toast } from "vue-sonner";
+import "vue-sonner/style.css";
 
-const msg = ref<string>("选择 TXT 谱");
 const music = ref<Music | null>(null);
 
 function onFileContent(content: string) {
   try {
     music.value = stringToMusic(content);
-    msg.value = "选择TXT谱";
-  } catch (e) {
-    music.value = null;
-    msg.value = "非合法TXT谱，重新选择";
+  } catch {
+    toast.error("无效TXT谱");
+  } finally {
+    isDragging.value = false;
   }
 }
 

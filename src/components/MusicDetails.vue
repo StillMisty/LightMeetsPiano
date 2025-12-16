@@ -1,9 +1,11 @@
 <template>
   <div
-    class="flex h-full max-w-48 min-w-3/5 flex-col justify-center gap-1 rounded-md border-2 border-slate-400 p-2"
+    class="flex size-full flex-col justify-center gap-1 rounded-md border-2 border-slate-400 p-2 overflow-hidden"
   >
-    <h1 class="truncate text-center font-bold">{{ props?.name }}</h1>
-    <div class="text-left *:truncate">
+    <h1 class="px-1 w-full truncate text-center font-bold">
+      {{ props?.name }}
+    </h1>
+    <div class="w-full min-w-0 text-left px-1 *:truncate">
       <p>作者：{{ props?.author || "佚名" }}</p>
       <p>谱者：{{ props?.transcribedBy || "佚名" }}</p>
     </div>

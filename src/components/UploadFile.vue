@@ -1,19 +1,17 @@
 <template>
-  <div>
+  <Button
+    variant="outline"
+    @click="triggerFileInput"
+    class="cursor-pointer border-2 border-slate-400!"
+  >
+    <slot></slot>
     <input
       type="file"
       @change="handleFileChange"
       class="hidden"
       ref="fileInput"
     />
-    <Button
-      variant="secondary"
-      @click="triggerFileInput"
-      class="cursor-pointer"
-    >
-      <slot></slot>
-    </Button>
-  </div>
+  </Button>
 </template>
 
 <script setup lang="ts">
@@ -24,12 +22,8 @@ const emit = defineEmits(["contentChanged"]);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 const triggerFileInput = () => {
-  console.log("triggerFileInput called");
   if (fileInput.value) {
     fileInput.value.click();
-    console.log("fileInput clicked");
-  } else {
-    console.error("fileInput is null");
   }
 };
 

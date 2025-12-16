@@ -1,5 +1,9 @@
 <template>
-  <Button @click="togglePlay" class="cursor-pointer">
+  <Button
+    @click="togglePlay"
+    :variant="isPlaying ? 'destructive' : 'outline'"
+    class="cursor-pointer border-2 border-slate-400! hover:backdrop-brightness-200"
+  >
     <component :is="isPlaying ? Pause : Play" class="size-4" />
     {{ isPlaying ? "暂停" : "播放" }}
   </Button>
