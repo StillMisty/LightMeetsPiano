@@ -36,7 +36,11 @@ class Music {
     // 按照时间排序
     songNotes.sort((a, b) => a.time - b.time);
     this.songNotes = songNotes;
-    this.duration = songNotes[songNotes.length - 1].time / 1000;
+    const songNotesLength = songNotes.length;
+    if (songNotesLength === 0) {
+      throw new Error("曲谱没有音符");
+    }
+    this.duration = songNotes[songNotesLength - 1].time / 1000 + 1;
   }
 
   /**
