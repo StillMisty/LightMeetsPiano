@@ -157,48 +157,48 @@ class Music {
 }
 
 function stringToMusic(jsonString: string): Music | null {
-  // 1. 解析 JSON 字符串
-  const parsedData = JSON.parse(jsonString)[0];
+  try {
+    const parsedData = JSON.parse(jsonString)[0];
 
-  // 2. 校验解析后的数据类型，确保数据的完整性和正确性
-  if (
-    typeof parsedData !== "object" ||
-    parsedData === null ||
-    typeof parsedData.name !== "string" ||
-    typeof parsedData.author !== "string" ||
-    typeof parsedData.transcribedBy !== "string" ||
-    typeof parsedData.bpm !== "number" ||
-    typeof parsedData.pitchLevel !== "number" ||
-    !Array.isArray(parsedData.songNotes)
-  ) {
-    console.error("无效的曲谱数据结构", parsedData);
-    console.log(parsedData);
-    return null;
-  }
-
-  // 3. 校验 songNotes 数组中元素的数据类型
-  for (const note of parsedData.songNotes) {
     if (
-      typeof note !== "object" ||
-      note === null ||
-      typeof note.time !== "number" ||
-      typeof note.key !== "string"
+      typeof parsedData !== "object" ||
+      parsedData === null ||
+      typeof parsedData.name !== "string" ||
+      typeof parsedData.author !== "string" ||
+      typeof parsedData.transcribedBy !== "string" ||
+      typeof parsedData.bpm !== "number" ||
+      typeof parsedData.pitchLevel !== "number" ||
+      !Array.isArray(parsedData.songNotes)
     ) {
-      console.error("无效的音符数据结构", note);
+      console.error("无效的曲谱数据结构", parsedData);
       return null;
     }
-  }
 
-  // 3. 创建 Music 对象
-  const music = new Music(
-    parsedData.name,
-    parsedData.author,
-    parsedData.transcribedBy,
-    parsedData.bpm,
-    parsedData.pitchLevel,
-    parsedData.songNotes,
-  );
-  return music;
+    for (const note of parsedData.songNotes) {
+      if (
+        typeof note !== "object" ||
+        note === null ||
+        typeof note.time !== "number" ||
+        typeof note.key !== "string"
+      ) {
+        console.error("无效的音符数据结构", note);
+        return null;
+      }
+    }
+
+    const music = new Music(
+      parsedData.name,
+      parsedData.author,
+      parsedData.transcribedBy,
+      parsedData.bpm,
+      parsedData.pitchLevel,
+      parsedData.songNotes,
+    );
+    return music;
+  } catch (error) {
+    console.error("解析乐谱失败:", error);
+    return null;
+  }
 }
 
 export { stringToMusic, Music };

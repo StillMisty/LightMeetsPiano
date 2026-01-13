@@ -58,13 +58,11 @@ import "vue-sonner/style.css";
 const music = ref<Music | null>(null);
 
 function onFileContent(content: string) {
-  try {
-    music.value = stringToMusic(content);
-  } catch {
+  music.value = stringToMusic(content);
+  if (!music.value) {
     toast.error("无效TXT谱");
-  } finally {
-    isDragging.value = false;
   }
+  isDragging.value = false;
 }
 
 let isDragging = ref(false);
