@@ -58,7 +58,8 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: pnpm install # change this to npm or pnpm depending on which one you use.
 
-      - uses: tauri-apps/tauri-action@v0
+      - name: Run Tauri Build
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -68,6 +69,42 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+      # 创建便携包
+      - name: Create portable package (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          # 获取版本号
+          $tagName = "${{ github.ref_name }}"
+          $version = $tagName -replace 'app-v', ''
+
+          # 创建便携包目录
+          New-Item -ItemType Directory -Name "portable-package" -Force
+
+          # 查找并复制可执行文件
+          $exePattern = "lightmeetspiano*.exe"
+          Get-ChildItem -Path "./src-tauri/target/release/" -Filter $exePattern | ForEach-Object {
+            Write-Host "Found executable: $($_.Name)"
+            Copy-Item $_.FullName -Destination "portable-package/"
+          }
+
+          # 压缩成ZIP格式便携包
+          $packageName = "LightMeetsPiano-Portable-v$version"
+          Compress-Archive -Path "portable-package\*" -DestinationPath "$packageName.zip" -Force
+
+          # 输出便携包名称供后续步骤使用
+          echo "PORTABLE_PACKAGE_NAME=$packageName.zip" >> $env:GITHUB_ENV
+
+      - name: Upload portable packages to release
+        uses: svenstaro/upload-release-action@v2
+        if: matrix.platform == 'windows-latest'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.PORTABLE_PACKAGE_NAME }}
+          asset_name: ${{ env.PORTABLE_PACKAGE_NAME }}
+          tag: ${{ github.ref }}
+          overwrite: true
 
   # 支持 aur
   publish-aur:
@@ -97,10 +134,10 @@ jobs:
       - name: Publish to AUR
         uses: KSXGitHub/github-actions-deploy-aur@v4.1.1
         with:
-          # 你的 AUR 包名
+          # AUR 包名
           pkgname: lightmeetspiano-bin
 
-          # 指向你更新后的 PKGBUILD 文件路径
+          # 更新后的 PKGBUILD 文件路径
           pkgbuild: ./PKGBUILD
 
           # 提交者信息，使用 bot 的默认信息即可，无需额外设置 secrets
@@ -113,5 +150,4 @@ jobs:
           # 提交信息，使用动态版本号
           commit_message: "Update to version ${{ steps.get_version.outputs.VERSION }}"
 
-          # SSH 主机密钥扫描类型，这是个好习惯，保持即可
           ssh_keyscan_types: rsa,ecdsa,ed25519
