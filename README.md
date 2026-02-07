@@ -16,7 +16,7 @@
 
 前往 [Releases](https://github.com/StillMisty/LightMeetsPiano/releases) 下载最新版本
 
-- windows 用户可
+- windows 用户
   1. 下载 exe 或 msi 安装包，点击授权下载
   2. 便携包，下载 Portable 的 zip 文件，解压后可直接运行
 - Linux 用户可下载 AppImage 或 deb 包安装，运行请使用 sudo 权限运行
