@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { Input } from "@/components/ui/input";
-import { Upload } from "lucide-vue-next";
+import { Upload } from "@lucide/vue";
 import { ref } from "vue";
 
 const emit = defineEmits(["file-dropped"]);

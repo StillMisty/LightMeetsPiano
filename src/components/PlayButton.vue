@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import { Play, Pause } from "lucide-vue-next";
+import { Play, Pause } from "@lucide/vue";
 import { ref, watch } from "vue";
 
 const props = defineProps({
