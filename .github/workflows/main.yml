@@ -132,7 +132,7 @@ jobs:
           sed -i "s/pkgver=.*/pkgver=${{ steps.get_version.outputs.VERSION }}/" PKGBUILD
 
       - name: Publish to AUR
-        uses: KSXGitHub/github-actions-deploy-aur@v4.1.1
+        uses: KSXGitHub/github-actions-deploy-aur@v4
         with:
           # AUR 包名
           pkgname: lightmeetspiano-bin
@@ -140,14 +140,15 @@ jobs:
           # 更新后的 PKGBUILD 文件路径
           pkgbuild: ./PKGBUILD
 
-          # 提交者信息，使用 bot 的默认信息即可，无需额外设置 secrets
           commit_username: "github-actions[bot]"
           commit_email: "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # SSH 私钥，从 GitHub Secrets 中读取
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
 
           # 提交信息，使用动态版本号
           commit_message: "Update to version ${{ steps.get_version.outputs.VERSION }}"
 
           ssh_keyscan_types: rsa,ecdsa,ed25519
+
+          # 自动更新校验和避免用户安装时出现 Hash 校验失败的问题
+          updpkgsums: true
