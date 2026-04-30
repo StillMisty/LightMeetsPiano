@@ -10,8 +10,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@lucide/vue": "^1.8.0",
-    "@tauri-apps/api": "^2.10.1",
+    "@lucide/vue": "^1.14.0",
+    "@tauri-apps/api": "^2.11.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@vueuse/core": "^14.2.1",
     "class-variance-authority": "^0.7.1",
@@ -19,20 +19,20 @@
     "reka-ui": "^2.9.6",
     "tailwind-merge": "^3.5.0",
     "tw-animate-css": "^1.4.0",
-    "vue": "^3.5.32",
+    "vue": "^3.5.33",
     "vue-sonner": "^2.0.9"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.2",
-    "@tauri-apps/cli": "^2.10.1",
+    "@tailwindcss/vite": "^4.2.4",
+    "@tauri-apps/cli": "^2.11.0",
     "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.6",
     "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^4.2.2",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3",
-    "vite": "^8.0.8",
-    "vue-tsc": "^3.2.6"
+    "vite": "^8.0.10",
+    "vue-tsc": "^3.2.7"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -41,5 +41,5 @@
       "vue-demi"
     ]
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.0.2+sha512.6926cf7cd7812b2800e3a210551b5ec845f77ebeba816424a95014de3021d193b3b55c5b4b74bac4eba106979e798aa0505646181ce67247507312532a661787"
 }
